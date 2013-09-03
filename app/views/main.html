@@ -1,9 +1,10 @@
 <div class="hero-unit">
-  <h1>'Allo, 'Allo!</h1>
-  <p>You now have</p>
+  <h1>Just do it!</h1>
+  <p>You now have following to-dos</p>
   <ul>
-      <li ng-repeat="thing in awesomeThings">{{thing}}</li>
+      <li ng-repeat="task in todoListItems">{{task}}</li>
   </ul>
-  <p>installed.</p>
-  <h3>Enjoy coding! - Yeoman</h3>
+  <form ng-submit="addTask(newItem)">
+    <input type="text" ng-model="newItem" />
+  </form>
 </div>

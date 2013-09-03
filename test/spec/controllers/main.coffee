@@ -8,12 +8,48 @@ describe 'Controller: MainCtrl', () ->
   MainCtrl = {}
   scope = {}
 
-  # Initialize the controller and a mock scope
-  beforeEach inject ($controller, $rootScope) ->
-    scope = $rootScope.$new()
-    MainCtrl = $controller 'MainCtrl', {
-      $scope: scope
-    }
+  describe 'empty todoList', () ->
+    beforeEach inject ($controller, $rootScope) ->
+      scope = $rootScope.$new()
 
-  it 'should attach a list of awesomeThings to the scope', () ->
-    expect(scope.awesomeThings.length).toBe 3
+      mockTaskService =
+        items: [],
+        all: ->
+          this.items
+        add: (task)->
+          this.items.push(task)
+
+      MainCtrl = $controller 'MainCtrl', {
+        $scope: scope,
+        Task: mockTaskService
+      }
+
+    it 'should have zero items in list initially', () ->
+      expect(scope.todoListItems.length).toBe(0);
+
+    it 'should have one item after we add a task', () ->
+      scope.addTask('asdfasfd');
+      expect(scope.todoListItems.length).toBe(1);
+
+  describe 'one item in todoList', () ->
+    beforeEach inject ($controller, $rootScope) ->
+      scope = $rootScope.$new()
+
+      mockTaskService =
+        items: ['asdfasdf'],
+        all: ->
+          this.items
+        add: (task)->
+          this.items.push(task)
+
+      MainCtrl = $controller 'MainCtrl', {
+        $scope: scope,
+        Task: mockTaskService
+      }
+
+    it 'should have one item in list', () ->
+      expect(scope.todoListItems.length).toBe(1);
+
+    it 'should have two items after we add a task', () ->
+      scope.addTask('asdfasfd');
+      expect(scope.todoListItems.length).toBe(2);
