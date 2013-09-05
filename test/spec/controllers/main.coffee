@@ -7,18 +7,19 @@ describe 'Controller: MainCtrl', () ->
 
   MainCtrl = {}
   scope = {}
+  mockTaskService = {}
+
+  beforeEach inject ($controller, $rootScope, mockTask) ->
+    scope = $rootScope.$new()
+
+    mockTaskService = mockTask
+
+    MainCtrl = $controller 'MainCtrl', {
+      $scope: scope,
+      Task: mockTaskService
+    }
 
   describe 'empty todoList', () ->
-    beforeEach inject ($controller, $rootScope, mockTask) ->
-      scope = $rootScope.$new()
-
-      mockTaskService = mockTask
-
-      MainCtrl = $controller 'MainCtrl', {
-        $scope: scope,
-        Task: mockTaskService
-      }
-
     it 'should have zero items in list initially', () ->
       expect(scope.todoListItems.length).toBe(0);
 
@@ -27,17 +28,8 @@ describe 'Controller: MainCtrl', () ->
       expect(scope.todoListItems.length).toBe(1);
 
   describe 'one item in todoList', () ->
-    beforeEach inject ($controller, $rootScope, mockTask) ->
-      scope = $rootScope.$new()
-
-      mockTaskService = mockTask
-      items = [Factory.build('task')]
-      mockTaskService.items.prototype = items
-
-      MainCtrl = $controller 'MainCtrl', {
-        $scope: scope,
-        Task: mockTaskService
-      }
+    beforeEach ->
+      mockTaskService.items.prototype = [Factory.build('task')]
 
     it 'should have one item in list', () ->
       expect(scope.todoListItems.length).toBe(1);
