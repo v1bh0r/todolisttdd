@@ -3,21 +3,16 @@
 describe 'Controller: MainCtrl', () ->
 
   # load the controller's module
-  beforeEach module 'todolisttddApp'
+  beforeEach module 'todolisttddApp', 'myMocks'
 
   MainCtrl = {}
   scope = {}
 
   describe 'empty todoList', () ->
-    beforeEach inject ($controller, $rootScope) ->
+    beforeEach inject ($controller, $rootScope, mockTask) ->
       scope = $rootScope.$new()
 
-      mockTaskService =
-        items: [],
-        all: ->
-          this.items
-        add: (task)->
-          this.items.push(task)
+      mockTaskService = mockTask
 
       MainCtrl = $controller 'MainCtrl', {
         $scope: scope,
@@ -32,15 +27,12 @@ describe 'Controller: MainCtrl', () ->
       expect(scope.todoListItems.length).toBe(1);
 
   describe 'one item in todoList', () ->
-    beforeEach inject ($controller, $rootScope) ->
+    beforeEach inject ($controller, $rootScope, mockTask) ->
       scope = $rootScope.$new()
 
-      mockTaskService =
-        items: [Factory.build('task')],
-        all: ->
-          this.items
-        add: (task)->
-          this.items.push(task)
+      mockTaskService = mockTask
+      items = [Factory.build('task')]
+      mockTaskService.items.prototype = items
 
       MainCtrl = $controller 'MainCtrl', {
         $scope: scope,
