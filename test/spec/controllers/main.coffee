@@ -36,7 +36,7 @@ describe 'Controller: MainCtrl', () ->
       scope = $rootScope.$new()
 
       mockTaskService =
-        items: ['asdfasdf'],
+        items: [Factory.build('task')],
         all: ->
           this.items
         add: (task)->

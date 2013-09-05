@@ -17,10 +17,10 @@ describe 'Service: Task', () ->
     it 'should return 0 items', ->
       expect(Task.all().length).toBe 0
 
-
   describe 'when one item is present', ->
     beforeEach ->
-      Task.add('My task');
+      task = Factory.build('task')
+      Task.add(task);
 
     it 'should have one item', ->
       expect(Task.all().length).toBe 1
